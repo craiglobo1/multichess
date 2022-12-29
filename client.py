@@ -62,7 +62,6 @@ class Game:
         bsize = self.board.get_size()
         self.board = pg.transform.scale(self.board, (2*bsize[0]//5, 2*bsize[1]//5))
         self.piece = PieceHandler(self.board, self.state["pieces"])
-        ``
         self.run()
 
     def run(self):
