@@ -37,9 +37,9 @@ def starting_position():
 def update_state(move):
     pass
 
-def handle_client(conn : socket.socket, addr, player):
+def handle_client(conn : socket.socket, addr):
     state = {
-        "player" : player,
+        "player" : 0,
         "pieces" : starting_position(),
         "turn" : 0,
     }
@@ -65,6 +65,7 @@ def handle_client(conn : socket.socket, addr, player):
             print(f"[ENDING] {addr} closed")
         else:
             assert False, f"{header['type']} is not implemented"
+    conn.close()
 
 
 

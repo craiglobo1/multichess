@@ -62,6 +62,8 @@ class Game:
         bsize = self.board.get_size()
         self.board = pg.transform.scale(self.board, (2*bsize[0]//5, 2*bsize[1]//5))
         self.piece = PieceHandler(self.board, self.state["pieces"])
+
+        self.inhand = None
         self.run()
 
     def run(self):
@@ -79,14 +81,18 @@ class Game:
                 if self.playing:
                     self.end_conn()
                     self.playing = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                print("mouse down")
 
-    def send_move(self):
-        bytes_state = pickle.dumps(self.state)
+    def send_move(self, frm, to):
+        move = (frm, to)
+        size = len(pickle.dumps(move))
         self.client.send(pickle.dumps({
-            "size" : 64,
+            "size" : size,
             "type" : "set"
         }))
 
+        self.client.send(move)
 
     def get_state(self):
         self.client.send(pickle.dumps({
